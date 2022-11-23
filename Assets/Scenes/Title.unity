@@ -447,8 +447,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u6D77\u304B\u3089\u306E\u8131\u51FA"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: be7761b86c346dc4c9099859f50ac350, type: 2}
-  m_sharedMaterial: {fileID: 8156914624353030915, guid: be7761b86c346dc4c9099859f50ac350, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 05c3092417209bc4c966c33ed8629ec9, type: 2}
+  m_sharedMaterial: {fileID: -3590391091158604234, guid: 05c3092417209bc4c966c33ed8629ec9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
