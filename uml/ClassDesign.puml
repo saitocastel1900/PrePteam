@@ -16,6 +16,8 @@ interface IInputMoveProvider{
 +bool InputRight()
 +bool InputBack()
 }
+class InputMoveInstaller{
+}
 }
 interface IPushable{
 +void Push(float value)
