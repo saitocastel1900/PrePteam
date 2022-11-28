@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 
-namespace Commons
+namespace Commons.Utility
 {
     public static class SceneTransition
     {

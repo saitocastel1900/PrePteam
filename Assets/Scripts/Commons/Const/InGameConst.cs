@@ -1,4 +1,4 @@
-namespace Commons
+namespace Commons.Const
 {
     public static class InGameConst
     {
