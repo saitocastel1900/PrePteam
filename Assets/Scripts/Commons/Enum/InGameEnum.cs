@@ -1,4 +1,4 @@
-namespace Commons
+namespace Commons.Enum
 {
     public static class InGameEnum
     {
