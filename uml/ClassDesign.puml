@@ -1,37 +1,57 @@
 ﻿@startuml
 'https://plantuml.com/class-diagram
 
+left to right direction
+
 namespace Player{
-class PlayerManager{
--void Swim()
+class PlayerPresenter{
 }
-note left of PlayerManager : ここだけでUpdateとかを行う
+class PlayerModel{
+}
+class PlayerView{
+}
+
+PlayerView--u>PlayerPresenter
+PlayerModel--u>PlayerPresenter
 
 namespace Input{
 class KeyInputMoveProvider{
 }
 interface IInputMoveProvider{
-+bool InputAhead()
-+bool InputLeft()
-+bool InputRight()
-+bool InputBack()
-}
-class InputMoveInstaller{
 }
 }
 interface IPushable{
-+void Push(float value)
 }
 }
 
 namespace Enemy{
-class RipCurrentManager{
+class RipCurrentPresenter{
+}
+class RipCurrentModel{
+}
+class RipCurrentView{
+}
+RipCurrentModel-->RipCurrentPresenter
+RipCurrentView-->RipCurrentPresenter
+}
+
+namespace Commons{
+namespace Const{
+class InGameConst{}
+}
+namespace Utility{
+class DebugUtility{}
+class SceneTransition{}
+}
+namespace Enum{
+enum InGameEnum{}
+enum GameStateReactiveProperty{}
 }
 }
 
 Player.Input.KeyInputMoveProvider..|>Player.Input.IInputMoveProvider
-Enemy.RipCurrentManager..|>Player.IPushable : プレイヤーを波で押す
-Player.PlayerManager-u->Player.IPushable
-Player.PlayerManager-u->Player.Input.IInputMoveProvider
+Enemy.RipCurrentPresenter..|>Player.IPushable
+Player.PlayerPresenter-->Player.IPushable
+Player.PlayerPresenter-->Player.Input.IInputMoveProvider
 
 @enduml
