@@ -7,6 +7,8 @@ using UnityEngine;
 namespace Player
 {
     //TODO:コメントを書こう
+    //TODO:移動を単純な物ではなく、浮力や水力、波の影響を受けたリアルな移動方法に
+    //変更する
     public class PlayerPresenter : MonoBehaviour
     {
         [SerializeField] private PlayerModel _model;
@@ -19,7 +21,6 @@ namespace Player
         {
             Initialized();
             Bind();
-            SetEvents();
         }
         
         private void Update()
@@ -48,6 +49,8 @@ namespace Player
 
         private void Bind()
         {
+            _model.Running.Subscribe(value=>_view.UpdateView(value)).AddTo(this);
+            
             this.gameObject.OnCollisionEnterAsObservable()
                 .Subscribe(target =>
                 {
@@ -57,36 +60,32 @@ namespace Player
                     Debug.Log("衝突してますよ");
                 }).AddTo(this);
         }
-
-        private void SetEvents()
-        {
-            _model.Running.Subscribe(value=>_view.UpdateView(value)).AddTo(this);
-        }
-
+        
         private void OnStateChanged()
         {
             switch (_model._state)
             {
+                case InGameEnum.State.Stop:
+                    _moveSpeed = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, _rigidbody.velocity.z);
+                    _model.UpdateValue(false);
+                    break;
                 case InGameEnum.State.Ahead:
                     _moveSpeed = new Vector3(0, _rigidbody.velocity.y, InGameConst.MoveSpeed * 1);
                     _model.UpdateValue(true);
                     break;
                 case InGameEnum.State.Back:
                     _moveSpeed = new Vector3(0, _rigidbody.velocity.y, InGameConst.MoveSpeed * -1);
-                    _view.UpdateView(true);
+                    _model.UpdateValue(true);
                     break;
                 case InGameEnum.State.Left:
                     _moveSpeed = new Vector3(InGameConst.MoveSpeed * -1, _rigidbody.velocity.y, 0);
-                    _view.UpdateView(true);
+                    _model.UpdateValue(true);
                     break;
                 case InGameEnum.State.Right:
                     _moveSpeed = new Vector3(InGameConst.MoveSpeed * 1, _rigidbody.velocity.y, 0);
-                    _view.UpdateView(true);
+                    _model.UpdateValue(true);
                     break;
-                case InGameEnum.State.Stop:
-                    _moveSpeed = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, _rigidbody.velocity.z);
-                    _view.UpdateView(false);
-                    break;
+            
             }
         }
     }

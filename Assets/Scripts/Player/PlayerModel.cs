@@ -26,7 +26,7 @@ namespace Player
 
         public void UpdateValue(bool isRun)
         {
-            if(Running.Value!=isRun)_running.Value = isRun;
+            _running.Value = isRun;
         }
     }
 }
