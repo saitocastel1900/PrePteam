@@ -36,6 +36,7 @@ namespace Player
             }
         }
 
+        //TODO:AnimatonをUniRx化する
         public void UpdateView(bool isWalk)
         {
             _animator.SetBool("running",isWalk);

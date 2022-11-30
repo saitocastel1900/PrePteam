@@ -2,6 +2,7 @@ using UniRx;
 
 namespace Commons.Enum
 {
+    /*
     public enum STEP
     {
         /// <summary>
@@ -23,17 +24,17 @@ namespace Commons.Enum
         /// ゲーム終了時
         /// </summary>
         CLEAR,
-    }
+    }*/
 
     [System.Serializable]
-    public class StepReactiveProperty : ReactiveProperty<STEP>
+    public class EnumReactiveProperty : ReactiveProperty<InGameEnum.State>
     {
         //コンストラクタ
-        public StepReactiveProperty()
+        public EnumReactiveProperty()
         {
         }
 
-        public StepReactiveProperty(STEP initialValue) : base(initialValue)
+        public EnumReactiveProperty(InGameEnum.State initialValue) : base(initialValue)
         {
         }
     }

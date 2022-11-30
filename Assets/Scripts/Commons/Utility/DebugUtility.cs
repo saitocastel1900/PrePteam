@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEngine;
 
 namespace Commons.Utility
@@ -8,22 +9,32 @@ namespace Commons.Utility
     /// </summary>
     public static class DebugUtility
     {
-        /// <summary>
-        /// エラーログ
-        /// </summary>
-        public static void LogError(string message)
+       /// <summary>
+       /// エラーログ
+       /// </summary>
+       /// <param name="type">使用しているシステムをここに</param>
+       /// <param name="message">プログラムのどこで、何をしたのかをここに</param>
+       /// <param name="obj">使用しているクラスをここに</param>
+       /// <param name="method">呼ばれた場所のメソッドをここに</param>
+        public static void LogError(string type,string message,object obj=null,MethodBase method=null)
         {
-            //#if
-            Debug.LogError(message);
+#if UNITY_EDITOR
+            Debug.LogError($"【{type}】{message}：{obj.GetType().Name}.{method.Name}");
+#endif
         }
 
-        /// <summary>
-        /// デバッグログ
-        /// </summary>
-        public static void Log(string message)
+       /// <summary>
+       /// デバッグログ
+       /// </summary>
+       /// <param name="type">使用しているシステムをここに</param>
+       /// <param name="message">プログラムのどこで、何をしたのかをここに</param>
+       /// <param name="obj">使用しているクラスをここに</param>
+       /// <param name="method">呼ばれた場所のメソッドをここに</param>
+       public static void Log(string type,string message,object obj=null,MethodBase method=null)
         {
-            Debug.Log(message);
+#if UNITY_EDITOR
+            Debug.Log($"【{type}】{message}：{obj.GetType().Name}.{method.Name}");
+#endif
         }
-
     }
 }
