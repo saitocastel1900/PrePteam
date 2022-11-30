@@ -33,7 +33,6 @@ namespace Player
             OnStateChanged();
             _rigidbody.velocity = _moveSpeed;
             
-            Debug.Log(_moveSpeed);
             //BUG:カメラで回転させるのでいらなくなる
             if(_moveSpeed!=Vector3.zero)transform.forward = new Vector3(_moveSpeed.x,0,_moveSpeed.z);;
         }
@@ -54,10 +53,8 @@ namespace Player
             this.gameObject.OnCollisionEnterAsObservable()
                 .Subscribe(target =>
                 {
-                    Debug.Log("衝突しました");
                     var hit = target.gameObject.GetComponent<IPushable>();
-                    hit?.Push();
-                    Debug.Log("衝突してますよ");
+                    hit?.Push(default);
                 }).AddTo(this);
         }
         
@@ -67,25 +64,24 @@ namespace Player
             {
                 case InGameEnum.State.Stop:
                     _moveSpeed = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, _rigidbody.velocity.z);
-                    _model.UpdateValue(false);
+                    _model.UpdateBool(false);
                     break;
                 case InGameEnum.State.Ahead:
                     _moveSpeed = new Vector3(0, _rigidbody.velocity.y, InGameConst.MoveSpeed * 1);
-                    _model.UpdateValue(true);
+                    _model.UpdateBool(true);
                     break;
                 case InGameEnum.State.Back:
                     _moveSpeed = new Vector3(0, _rigidbody.velocity.y, InGameConst.MoveSpeed * -1);
-                    _model.UpdateValue(true);
+                    _model.UpdateBool(true);
                     break;
                 case InGameEnum.State.Left:
                     _moveSpeed = new Vector3(InGameConst.MoveSpeed * -1, _rigidbody.velocity.y, 0);
-                    _model.UpdateValue(true);
+                    _model.UpdateBool(true);
                     break;
                 case InGameEnum.State.Right:
                     _moveSpeed = new Vector3(InGameConst.MoveSpeed * 1, _rigidbody.velocity.y, 0);
-                    _model.UpdateValue(true);
+                    _model.UpdateBool(true);
                     break;
-            
             }
         }
     }

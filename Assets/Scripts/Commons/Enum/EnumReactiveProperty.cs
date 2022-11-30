@@ -27,14 +27,14 @@ namespace Commons.Enum
     }*/
 
     [System.Serializable]
-    public class StepReactiveProperty : ReactiveProperty<InGameEnum.State>
+    public class EnumReactiveProperty : ReactiveProperty<InGameEnum.State>
     {
         //コンストラクタ
-        public StepReactiveProperty()
+        public EnumReactiveProperty()
         {
         }
 
-        public StepReactiveProperty(InGameEnum.State initialValue) : base(initialValue)
+        public EnumReactiveProperty(InGameEnum.State initialValue) : base(initialValue)
         {
         }
     }
