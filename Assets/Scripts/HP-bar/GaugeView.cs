@@ -7,7 +7,7 @@ using DG.Tweening;
 
 namespace Gauge
 {
-    public class View : MonoBehaviour
+    public class GaugeView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private Button _button;

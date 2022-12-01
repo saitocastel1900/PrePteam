@@ -1,7 +1,6 @@
 using System.Reflection;
 using Commons.Utility;
 using Player;
-using UniRx;
 using UnityEngine;
 
 namespace RipCurrent
@@ -17,13 +16,13 @@ namespace RipCurrent
             Bind();
         }
 
-        private void Initialized()
+        public void Initialized()
         {
             _view.Initialized();
             _model.Initialized();
         }
 
-        private void Bind()
+        public void Bind()
         {
             //Where()
             //_model.PosProp.DistinctUntilChanged().Subscribe().AddTo(this);
@@ -32,7 +31,7 @@ namespace RipCurrent
         //TODO:流れる方向を変更できるようにする
         public void Push(GameObject game)
         {
-            _model.UpdatePos(game.transform.position);
+//            _model.UpdatePos(game.transform.position);
             
             //とりあえずの移動
             game.GetComponent<Rigidbody>().AddForce(new Vector3(0, 20, 0));

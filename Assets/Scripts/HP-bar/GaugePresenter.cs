@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Gauge
 {
-    public class Presenter : IDisposable
+    public class GaugePresenter : IDisposable
     {
         //view
-        private View _view;
+        private GaugeView _view;
         //model
-        private Model _model;
+        private GaugeModel _model;
         
        CompositeDisposable disposables = new CompositeDisposable();
        
-       public Presenter(Model model, View view)
+       public GaugePresenter(GaugeModel model, GaugeView view)
        {
            Debug.Log("コンストラクタ発動");
            _model = model;
@@ -25,7 +25,13 @@ namespace Gauge
            SetEvent();
        }
 
-        private void Bind()
+       public void Initialized()
+       {
+           _view.Initialized();
+           _model.Initialized();
+       }
+
+       public void Bind()
         {
             //view=>model
             _view.ObservableClickButton()
@@ -47,7 +53,7 @@ namespace Gauge
                     () => Debug.Log("OnCompleted!")).AddTo(disposables);
         }
 
-        private void SetEvent()
+       public void SetEvent()
         {
             _model.OnCallback += _view.UnInteractiveClick;
         }
