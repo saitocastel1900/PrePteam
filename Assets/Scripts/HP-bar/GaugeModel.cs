@@ -4,18 +4,23 @@ using UnityEngine;
 
 namespace Gauge
 {
-    public class Model
+    public class GaugeModel
     {
         public IReadOnlyReactiveProperty<int> Value => _value;
         private IntReactiveProperty _value;
 
         public event Action OnCallback;
 
+        public void Initialized()
+        {
+            _value=new IntReactiveProperty(0);
+        }
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="value"></param>
-        public Model(int value=0)
+        public GaugeModel(int value=0)
         {
             _value=new IntReactiveProperty(value);
         }

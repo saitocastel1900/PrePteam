@@ -13,6 +13,10 @@ namespace Player
         private EnumReactiveProperty _state;
         public IReadOnlyReactiveProperty<InGameEnum.State> State=>_state;
 
+        //PlayerのHPとして使う予定
+        private IntReactiveProperty _hpProp;
+        public IReactiveProperty<int> HpProp => _hpProp;
+
         /// <summary>
         /// 初期化
         /// </summary>
@@ -20,6 +24,15 @@ namespace Player
         {
             _state = new EnumReactiveProperty(InGameEnum.State.Stop);
             _running = new BoolReactiveProperty(false);
+        }
+
+        /// <summary>
+        /// Animatorのフラグを書き換え
+        /// </summary>
+        /// <param name="isRun"></param>
+        public void UpdateBool(bool isRun)
+        {
+            _running.Value = isRun;
         }
 
         /// <summary>
@@ -31,13 +44,9 @@ namespace Player
             _state.Value = state;
         }
 
-        /// <summary>
-        /// Animatorのフラグを書き換え
-        /// </summary>
-        /// <param name="isRun"></param>
-        public void UpdateBool(bool isRun)
+        public void UpdateHp(int hp)
         {
-            _running.Value = isRun;
+            _hpProp.Value = hp;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Player
         private Vector3 _moveSpeed;
         private Rigidbody _rigidbody;
        
-        void Start()
+        private void Start()
         {
             Initialized();
             Bind();
@@ -40,7 +40,7 @@ namespace Player
         /// <summary>
         /// 初期化
         /// </summary>
-        private void Initialized()
+        public void Initialized()
         {
             _view.Initialized();
             _model.Initialized();
@@ -52,7 +52,7 @@ namespace Player
         /// <summary>
         /// ViewとModelを結び付ける
         /// </summary>
-        private void Bind()
+        public void Bind()
         {
             //アニメーションの切り替え
             _model.Running
@@ -62,13 +62,26 @@ namespace Player
             _model.State
                 .DistinctUntilChanged().Subscribe(OnStateChanged).AddTo(this);
         }
+        
+        public void ManualUpdate()
+        {
+            _model.UpdateState(_view.InputMove());
+        }
+        
+        public void ManualFixedUpdate()
+        {
+            _rigidbody.velocity = _moveSpeed;
+            
+            //BUG:カメラで回転させるのでいらなくなる
+            if(_moveSpeed!=Vector3.zero)transform.forward = new Vector3(_moveSpeed.x,0,_moveSpeed.z);;
+        }
 
         /// <summary>
         /// 衝突判定
         /// </summary>
         private void OnCollisionEnter()
         {
-            this.gameObject.OnCollisionEnterAsObservable()
+            this.gameObject.OnTriggerStayAsObservable()
                 .Where(target=>target.gameObject.TryGetComponent<IPushable>(out var t))
                 .Subscribe(target =>
                 {

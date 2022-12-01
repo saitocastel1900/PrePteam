@@ -217,12 +217,12 @@ GameObject:
   m_Component:
   - component: {fileID: 180672947}
   - component: {fileID: 180672946}
+  - component: {fileID: 180672948}
   - component: {fileID: 180672945}
   - component: {fileID: 180672944}
   - component: {fileID: 180672943}
   - component: {fileID: 180672942}
   - component: {fileID: 180672941}
-  - component: {fileID: 180672948}
   m_Layer: 0
   m_Name: Wave
   m_TagString: Untagged
