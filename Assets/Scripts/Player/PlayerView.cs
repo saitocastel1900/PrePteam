@@ -10,11 +10,18 @@ namespace Player
         [Inject] private IInputMoveProvider _input;
         private Animator _animator;
 
+        /// <summary>
+        /// 初期化
+        /// </summary>
         public void Initialized()
         { 
             _animator = this.GetComponent<Animator>();
         }
 
+        /// <summary>
+        /// それぞれの入力からEnumを返す
+        /// </summary>
+        /// <returns></returns>
         public InGameEnum.State InputMove()
         {
             if (_input.InputAhead())
@@ -36,7 +43,10 @@ namespace Player
             }
         }
 
-        //TODO:AnimatonをUniRx化する
+        /// <summary>
+        /// アニメーションを切り替えます
+        /// </summary>
+        /// <param name="isWalk"></param>
         public void UpdateView(bool isWalk)
         {
             _animator.SetBool("running",isWalk);

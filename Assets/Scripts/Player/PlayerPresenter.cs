@@ -21,6 +21,7 @@ namespace Player
         {
             Initialized();
             Bind();
+            OnCollisionEnter();
         }
         
         private void Update()
@@ -30,13 +31,15 @@ namespace Player
 
         private void FixedUpdate()
         {
-            OnStateChanged();
             _rigidbody.velocity = _moveSpeed;
             
             //BUG:カメラで回転させるのでいらなくなる
             if(_moveSpeed!=Vector3.zero)transform.forward = new Vector3(_moveSpeed.x,0,_moveSpeed.z);;
         }
 
+        /// <summary>
+        /// 初期化
+        /// </summary>
         private void Initialized()
         {
             _view.Initialized();
@@ -46,24 +49,41 @@ namespace Player
             _moveSpeed = Vector3.zero;
         }
 
+        /// <summary>
+        /// ViewとModelを結び付ける
+        /// </summary>
         private void Bind()
         {
-            _model.Running.Subscribe(value=>_view.UpdateView(value)).AddTo(this);
+            //アニメーションの切り替え
+            _model.Running
+                .Subscribe(value=>_view.UpdateView(value)).AddTo(this);
             
+            //ステートマシンを回す
+            _model.State
+                .DistinctUntilChanged().Subscribe(OnStateChanged).AddTo(this);
+        }
+
+        /// <summary>
+        /// 衝突判定
+        /// </summary>
+        private void OnCollisionEnter()
+        {
             this.gameObject.OnCollisionEnterAsObservable()
+                .Where(target=>target.gameObject.TryGetComponent<IPushable>(out var t))
                 .Subscribe(target =>
                 {
                     var hit = target.gameObject.GetComponent<IPushable>();
                     hit?.Push(default);
                 }).AddTo(this);
         }
-        
-        private void OnStateChanged()
+
+        private void OnStateChanged(InGameEnum.State state)
         {
-            switch (_model._state)
+            switch (state)
             {
                 case InGameEnum.State.Stop:
-                    _moveSpeed = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, _rigidbody.velocity.z);
+                    _moveSpeed = new Vector3(_rigidbody.velocity.x, Physics.gravity.y, _rigidbody.velocity.z);
+                    Debug.Log(Physics.gravity.y);
                     _model.UpdateBool(false);
                     break;
                 case InGameEnum.State.Ahead:

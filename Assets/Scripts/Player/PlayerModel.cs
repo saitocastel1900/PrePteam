@@ -8,25 +8,33 @@ namespace Player
     {
         private BoolReactiveProperty _running;
         public IReadOnlyReactiveProperty<bool> Running => _running;
-
-        //private EnumReactiveProperty _state;
-        //public IReadOnlyReactiveProperty<InGameEnum.State> State=>_state;
         
-        //TODO:InGameEnumのリアクティブプロパティに変える
-        //TODO:Modelの_stateが使われていないので、こっちの_stateを使うようにする
-        public InGameEnum.State _state;
+        //InGamePresenterで管理すべき
+        private EnumReactiveProperty _state;
+        public IReadOnlyReactiveProperty<InGameEnum.State> State=>_state;
 
+        /// <summary>
+        /// 初期化
+        /// </summary>
         public void Initialized()
         {
-            _state = InGameEnum.State.Stop;
+            _state = new EnumReactiveProperty(InGameEnum.State.Stop);
             _running = new BoolReactiveProperty(false);
         }
 
+        /// <summary>
+        /// Enumを書き換える
+        /// </summary>
+        /// <param name="state"></param>
         public void UpdateState(InGameEnum.State state)
         {
-            _state = state;
+            _state.Value = state;
         }
 
+        /// <summary>
+        /// Animatorのフラグを書き換え
+        /// </summary>
+        /// <param name="isRun"></param>
         public void UpdateBool(bool isRun)
         {
             _running.Value = isRun;
