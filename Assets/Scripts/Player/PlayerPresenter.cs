@@ -31,6 +31,7 @@ namespace Player
 
         private void FixedUpdate()
         {
+            //BUG:Playerをカメラが向いている方向に移動させたい
             _rigidbody.velocity = _moveSpeed;
 
             //プレイヤーを回転する
