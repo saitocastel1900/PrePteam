@@ -7,11 +7,11 @@ public class PlayerTest : MonoBehaviour
 {
     private void Start()
     {
-        this.gameObject.OnTriggerStayAsObservable()
+        this.gameObject.OnCollisionEnterAsObservable()
             .Subscribe(target =>
             {
                 var hit = target.gameObject.GetComponent<IPushable>();
-                hit?.Push(this.gameObject);
+                hit?.Push(default);
             }).AddTo(this);
     }
 }
