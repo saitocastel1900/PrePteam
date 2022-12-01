@@ -32,9 +32,28 @@ namespace Player
         private void FixedUpdate()
         {
             _rigidbody.velocity = _moveSpeed;
+
+            //プレイヤーを回転する
+            if (_moveSpeed != Vector3.zero)
+            {
+                var rotationSpeed = 8.0f * Time.deltaTime;
+                var horizontalRotation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y,Vector3.up);
+                Quaternion targetRotation = Quaternion.LookRotation(new Vector3(_moveSpeed.x,0,_moveSpeed.z).normalized,Vector3.up);
+                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed);
+            }
+            /*
+            _rigidbody.velocity = _moveSpeed+transform.forward;
+            Debug.Log(transform.forward);
             
-            //BUG:カメラで回転させるのでいらなくなる
-            if(_moveSpeed!=Vector3.zero)transform.forward = new Vector3(_moveSpeed.x,0,_moveSpeed.z);;
+            //プレイヤーを回転する
+            if (_moveSpeed != Vector3.zero)
+            {
+                var rotationSpeed = 8.0f * Time.deltaTime;
+                var horizontalRotation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y,Vector3.up);
+                Quaternion targetRotation = horizontalRotation*Quaternion.LookRotation(new Vector3(_moveSpeed.x,0,_moveSpeed.z).normalized,Vector3.up);
+                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed);
+            }
+            */
         }
 
         /// <summary>
@@ -73,7 +92,7 @@ namespace Player
             _rigidbody.velocity = _moveSpeed;
             
             //BUG:カメラで回転させるのでいらなくなる
-            if(_moveSpeed!=Vector3.zero)transform.forward = new Vector3(_moveSpeed.x,0,_moveSpeed.z);;
+            if(_moveSpeed!=Vector3.zero)transform.forward = new Vector3(_moveSpeed.x,0,_moveSpeed.z);
         }
 
         /// <summary>
