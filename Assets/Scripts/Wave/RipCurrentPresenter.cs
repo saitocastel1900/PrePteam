@@ -1,5 +1,4 @@
-using System.Reflection;
-using Commons.Utility;
+using System;
 using Player;
 using UnityEngine;
 
@@ -9,12 +8,6 @@ namespace RipCurrent
     {
         [SerializeField] private RipCurrentModel _model;
         [SerializeField] private RipCurrentView _view;
-
-        private void Start()
-        {
-            Initialized();
-            Bind();
-        }
 
         public void Initialized()
         {
@@ -29,13 +22,9 @@ namespace RipCurrent
         }
 
         //TODO:流れる方向を変更できるようにする
-        public void Push(GameObject game)
+        public void Push(Action OnCallBack)
         {
-//            _model.UpdatePos(game.transform.position);
-            
-            //とりあえずの移動
-            game.GetComponent<Rigidbody>().AddForce(new Vector3(0, 20, 0));
-            DebugUtility.Log("離岸流","当たり判定のサイズを設定",this,MethodBase.GetCurrentMethod());
+            OnCallBack?.Invoke();
         }
     }
 }

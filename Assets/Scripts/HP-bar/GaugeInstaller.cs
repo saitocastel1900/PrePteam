@@ -1,11 +1,12 @@
 using Gauge;
+using Player;
 using Zenject;
 
-public class Installer : MonoInstaller
+public class GaugeInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
         Container.Bind<GaugePresenter>().FromNew().AsCached().NonLazy();
-        Container.Bind<GaugeModel>().FromNew().AsCached();
+        Container.Bind<PlayerModel>().FromNew().AsCached();
     }
 }

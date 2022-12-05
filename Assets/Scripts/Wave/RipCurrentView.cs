@@ -7,7 +7,7 @@ namespace RipCurrent
     public class RipCurrentView : MonoBehaviour
     {
         [SerializeField, Header("オブジェクトを生成したい場所の範囲(矩形)")]
-        private Vector3 objectPosRange = new Vector3(-5f, 1, 5f); //オブジェクトの生成範囲
+        private Vector3 objectPosRange; //オブジェクトの生成範囲
 
         [SerializeField] private BoxCollider _collider;
         

@@ -1,8 +1,9 @@
-using Commons.Const;
 using Commons.Enum;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Zenject;
 
 namespace Player
 {
@@ -11,37 +12,12 @@ namespace Player
     //変更する
     public class PlayerPresenter : MonoBehaviour
     {
-        [SerializeField] private PlayerModel _model;
+        [Inject]
+        private PlayerModel _model;
         [SerializeField] private PlayerView _view;
         
-        private Vector3 _moveSpeed;
-        private Rigidbody _rigidbody;
-       
-        private void Start()
-        {
-            Initialized();
-            Bind();
-            OnCollisionEnter();
-        }
-        
-        private void Update()
-        {
-            _model.UpdateState(_view.InputMove());
-        }
-
-        private void FixedUpdate()
-        {
-            //BUG:Playerをカメラが向いている方向に移動させたい
-            _rigidbody.velocity = _moveSpeed;
-
-            if (_model.State.Value!=InGameEnum.State.Stop)
-            {
-                var rotationSpeed = 8.0f * Time.deltaTime;
-                Quaternion targetRotation =
-                    Quaternion.LookRotation(new Vector3(_moveSpeed.x, 0, _moveSpeed.z).normalized, Vector3.up);
-                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed);
-            }
-        }
+        public Vector3 MoveSpeed;
+        public Rigidbody Rigidbody;
 
         /// <summary>
         /// 初期化
@@ -49,10 +25,9 @@ namespace Player
         public void Initialized()
         {
             _view.Initialized();
-            _model.Initialized();
-            
-            _rigidbody = this.GetComponent<Rigidbody>();
-            _moveSpeed = Vector3.zero;
+
+            TryGetComponent(out Rigidbody);
+            MoveSpeed = Vector3.zero;
         }
 
         /// <summary>
@@ -62,66 +37,39 @@ namespace Player
         {
             //アニメーションの切り替え
             _model.Running
-                .Subscribe(value=>_view.UpdateView(value)).AddTo(this);
-            
-            //ステートマシンを回す
-            _model.State
-                .DistinctUntilChanged().Subscribe(OnStateChanged).AddTo(this);
+                .Subscribe(value => _view.UpdateView(value)).AddTo(this);
         }
-        
-        public void ManualUpdate()
-        {
-            _model.UpdateState(_view.InputMove());
-        }
-        
+
         public void ManualFixedUpdate()
         {
-            _rigidbody.velocity = _moveSpeed;
-            
-            //BUG:カメラで回転させるのでいらなくなる
-            if(_moveSpeed!=Vector3.zero)transform.forward = new Vector3(_moveSpeed.x,0,_moveSpeed.z);
+            Rigidbody.velocity = MoveSpeed;
+
+            if (MoveSpeed!=new Vector3(Rigidbody.velocity.x, Physics.gravity.y, Rigidbody.velocity.z))
+            {
+                var rotationSpeed = 8.0f * Time.deltaTime;
+                Quaternion targetRotation =
+                    Quaternion.LookRotation(new Vector3(MoveSpeed.x, 0, MoveSpeed.z).normalized, Vector3.up);
+                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed);
+            }
         }
 
         /// <summary>
         /// 衝突判定
         /// </summary>
-        private void OnCollisionEnter()
+        public void OnCollisionEnter()
         {
-            this.gameObject.OnTriggerStayAsObservable()
-                .Where(target=>target.gameObject.TryGetComponent<IPushable>(out var t))
+            this.gameObject.OnCollisionEnterAsObservable().DistinctUntilChanged()
+                .Where(target => target.gameObject.TryGetComponent<IPushable>(out var t))
                 .Subscribe(target =>
                 {
                     var hit = target.gameObject.GetComponent<IPushable>();
-                    hit?.Push(default);
+                    hit?.Push(()=>  _model.UpdateHp(_model.Hp + 1));
                 }).AddTo(this);
         }
 
-        private void OnStateChanged(InGameEnum.State state)
+        public void UpdateBool(bool isWalk)
         {
-            switch (state)
-            {
-                case InGameEnum.State.Stop:
-                    _moveSpeed = new Vector3(_rigidbody.velocity.x, Physics.gravity.y, _rigidbody.velocity.z);
-                    Debug.Log(Physics.gravity.y);
-                    _model.UpdateBool(false);
-                    break;
-                case InGameEnum.State.Ahead:
-                    _moveSpeed = new Vector3(0, _rigidbody.velocity.y, InGameConst.MoveSpeed * 1);
-                    _model.UpdateBool(true);
-                    break;
-                case InGameEnum.State.Back:
-                    _moveSpeed = new Vector3(0, _rigidbody.velocity.y, InGameConst.MoveSpeed * -1);
-                    _model.UpdateBool(true);
-                    break;
-                case InGameEnum.State.Left:
-                    _moveSpeed = new Vector3(InGameConst.MoveSpeed * -1, _rigidbody.velocity.y, 0);
-                    _model.UpdateBool(true);
-                    break;
-                case InGameEnum.State.Right:
-                    _moveSpeed = new Vector3(InGameConst.MoveSpeed * 1, _rigidbody.velocity.y, 0);
-                    _model.UpdateBool(true);
-                    break;
-            }
+            _model.UpdateBool(isWalk);
         }
     }
 }
