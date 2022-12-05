@@ -34,27 +34,13 @@ namespace Player
             //BUG:Playerをカメラが向いている方向に移動させたい
             _rigidbody.velocity = _moveSpeed;
 
-            //プレイヤーを回転する
-            if (_moveSpeed != Vector3.zero)
+            if (_model.State.Value!=InGameEnum.State.Stop)
             {
                 var rotationSpeed = 8.0f * Time.deltaTime;
-                var horizontalRotation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y,Vector3.up);
-                Quaternion targetRotation = Quaternion.LookRotation(new Vector3(_moveSpeed.x,0,_moveSpeed.z).normalized,Vector3.up);
+                Quaternion targetRotation =
+                    Quaternion.LookRotation(new Vector3(_moveSpeed.x, 0, _moveSpeed.z).normalized, Vector3.up);
                 this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed);
             }
-            /*
-            _rigidbody.velocity = _moveSpeed+transform.forward;
-            Debug.Log(transform.forward);
-            
-            //プレイヤーを回転する
-            if (_moveSpeed != Vector3.zero)
-            {
-                var rotationSpeed = 8.0f * Time.deltaTime;
-                var horizontalRotation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y,Vector3.up);
-                Quaternion targetRotation = horizontalRotation*Quaternion.LookRotation(new Vector3(_moveSpeed.x,0,_moveSpeed.z).normalized,Vector3.up);
-                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed);
-            }
-            */
         }
 
         /// <summary>
