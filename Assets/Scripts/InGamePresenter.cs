@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using Gauge;
 using Player;
 using RipCurrent;
@@ -11,12 +7,18 @@ namespace InGame
 {
     public class InGamePresenter : MonoBehaviour
     {
+        [SerializeField] private InGameView _view;
+        [SerializeField] private InGameModel _model;
+        
         [SerializeField] private RipCurrentPresenter _ripCurrent;
         [SerializeField] private PlayerPresenter _player;
         [SerializeField] private GaugePresenter _gauge;
 
         private void Initialized()
         {
+            _model.Initialized();
+            _view.Initialized();
+            
             _ripCurrent.Initialized();
             _player.Initialized();
         }
@@ -36,6 +38,8 @@ namespace InGame
         private void Start()
         {
             Initialized();
+            Bind();
+            SetEvents();
         }
 
         private void Update()
