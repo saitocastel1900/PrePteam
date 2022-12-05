@@ -1,29 +1,24 @@
-using Commons.Enum;
 using UniRx;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerModel : MonoBehaviour
+    public class PlayerModel
     {
         private BoolReactiveProperty _running;
         public IReadOnlyReactiveProperty<bool> Running => _running;
-        
-        //InGamePresenterで管理すべき
-        private EnumReactiveProperty _state;
-        public IReadOnlyReactiveProperty<InGameEnum.State> State=>_state;
 
-        //PlayerのHPとして使う予定
         private IntReactiveProperty _hpProp;
         public IReactiveProperty<int> HpProp => _hpProp;
+        public int Hp => _hpProp.Value;
 
         /// <summary>
-        /// 初期化
+        /// コンストラクタ
         /// </summary>
-        public void Initialized()
+        public PlayerModel()
         {
-            _state = new EnumReactiveProperty(InGameEnum.State.Stop);
             _running = new BoolReactiveProperty(false);
+            _hpProp = new IntReactiveProperty(0);
         }
 
         /// <summary>
@@ -35,18 +30,10 @@ namespace Player
             _running.Value = isRun;
         }
 
-        /// <summary>
-        /// Enumを書き換える
-        /// </summary>
-        /// <param name="state"></param>
-        public void UpdateState(InGameEnum.State state)
+        public void UpdateHp(int damage)
         {
-            _state.Value = state;
-        }
-
-        public void UpdateHp(int hp)
-        {
-            _hpProp.Value = hp;
+            if (_hpProp.Value >= 10) return;
+            _hpProp.Value =Mathf.Clamp(damage, 0, 10);
         }
     }
 }

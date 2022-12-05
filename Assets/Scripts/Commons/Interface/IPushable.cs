@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 namespace Player
 {
     public interface IPushable
     {
-        public void Push(GameObject game=null);
+        public void Push(Action OnCallBack);
     }
 }

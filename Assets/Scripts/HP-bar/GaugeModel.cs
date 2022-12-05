@@ -11,18 +11,13 @@ namespace Gauge
 
         public event Action OnCallback;
 
-        public void Initialized()
-        {
-            _value=new IntReactiveProperty(0);
-        }
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="value"></param>
-        public GaugeModel(int value=0)
+        public GaugeModel()
         {
-            _value=new IntReactiveProperty(value);
+            _value=new IntReactiveProperty(0);
         }
 
         /// <summary>
