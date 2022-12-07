@@ -1,18 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
-public class ScorePresenter : MonoBehaviour
+namespace Score
 {
-    // Start is called before the first frame update
-    void Start()
+    public class ScorePresenter : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private ScoreModel _model;
+        [SerializeField] private ScoreView _view;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        void Start()
+        {
+            Initialized();
+            Bind();
+            SetEvent();
+        }
+
+        public void Initialized()
+        {
+            _model.Initialized();
+            _view.Initialized();
+        }
+
+        public void Bind()
+        {
+            
+            
+            _model.TimeProp
+                .Subscribe(_=>_view.UpdateText(_model.Time)).AddTo(this);
+        }
+
+        public void SetEvent()
+        {
+        }
     }
 }
