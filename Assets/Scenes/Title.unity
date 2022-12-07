@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 349503023}
   - component: {fileID: 349503022}
   m_Layer: 0
-  m_Name: MVP
+  m_Name: TitleMVP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
