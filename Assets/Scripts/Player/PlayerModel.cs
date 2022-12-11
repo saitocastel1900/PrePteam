@@ -10,7 +10,7 @@ namespace Player
 
         private IntReactiveProperty _hpProp;
         public IReactiveProperty<int> HpProp => _hpProp;
-        public int Hp => _hpProp.Value;
+        private int HP => _hpProp.Value;
 
         /// <summary>
         /// コンストラクタ
@@ -30,10 +30,11 @@ namespace Player
             _running.Value = isRun;
         }
 
-        public void UpdateHp(int damage)
+        public void UpdateHp()
         {
-            if (_hpProp.Value >= 10) return;
-            _hpProp.Value =Mathf.Clamp(damage, 0, 10);
+            var value = HP + 1;
+            Debug.Log("Modelの値"+value);
+            _hpProp.Value =Mathf.Clamp(value, 0, 10);
         }
     }
 }

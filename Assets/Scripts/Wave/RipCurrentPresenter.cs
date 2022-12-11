@@ -1,30 +1,32 @@
-using System;
-using Player;
+using Commons.Interface;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace RipCurrent
 {
-    public class RipCurrentPresenter : MonoBehaviour , IPushable
+    public class RipCurrentPresenter : MonoBehaviour
     {
-        [SerializeField] private RipCurrentModel _model;
+        private RipCurrentModel _model;
         [SerializeField] private RipCurrentView _view;
 
         public void Initialized()
         {
+            _model = new RipCurrentModel();
             _view.Initialized();
-            _model.Initialized();
         }
 
-        public void Bind()
+        /// <summary>
+        /// 衝突判定
+        /// </summary>
+        public void OnCollisionEnter()
         {
-            //Where()
-            //_model.PosProp.DistinctUntilChanged().Subscribe().AddTo(this);
-        }
-
-        //TODO:流れる方向を変更できるようにする
-        public void Push(Action OnCallBack)
-        {
-            OnCallBack?.Invoke();
+            this.gameObject.OnTriggerEnterAsObservable()
+                .Subscribe(target =>
+                {
+                    var hit = target.gameObject.GetComponent<IDamagable>();
+                    hit?.Damage();
+                }).AddTo(this);
         }
     }
 }

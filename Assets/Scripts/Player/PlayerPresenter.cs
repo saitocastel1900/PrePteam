@@ -1,8 +1,6 @@
-using Commons.Enum;
+using Commons.Interface;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Player
@@ -10,7 +8,7 @@ namespace Player
     //TODO:コメントを書こう
     //TODO:移動を単純な物ではなく、浮力や水力、波の影響を受けたリアルな移動方法に
     //変更する
-    public class PlayerPresenter : MonoBehaviour
+    public class PlayerPresenter : MonoBehaviour,IDamagable
     {
         [Inject]
         private PlayerModel _model;
@@ -53,23 +51,14 @@ namespace Player
             }
         }
 
-        /// <summary>
-        /// 衝突判定
-        /// </summary>
-        public void OnCollisionEnter()
-        {
-            this.gameObject.OnCollisionEnterAsObservable().DistinctUntilChanged()
-                .Where(target => target.gameObject.TryGetComponent<IPushable>(out var t))
-                .Subscribe(target =>
-                {
-                    var hit = target.gameObject.GetComponent<IPushable>();
-                    hit?.Push(()=>  _model.UpdateHp(_model.Hp + 1));
-                }).AddTo(this);
-        }
-
         public void UpdateBool(bool isWalk)
         {
             _model.UpdateBool(isWalk);
+        }
+
+        public void Damage()
+        {
+            _model.UpdateHp();
         }
     }
 }
