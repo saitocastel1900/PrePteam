@@ -1407,7 +1407,11 @@ PrefabInstance:
     - target: {fileID: 2005794047694009280, guid: 2b530a6fa5657a341950a3628aadffda, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 5e4ba55c54b27d041bd9fdd193bdeb6a, type: 2}
+      objectReference: {fileID: 9100000, guid: 3893a0a43d30f374281b3fc40bdc3932, type: 2}
+    - target: {fileID: 2005794047694009280, guid: 2b530a6fa5657a341950a3628aadffda, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2005794047703260228, guid: 2b530a6fa5657a341950a3628aadffda, type: 3}
       propertyPath: m_RootOrder
       value: 0
