@@ -29,8 +29,10 @@ namespace Gauge
         {
             //model=>view
             _model.HpProp
+                .DistinctUntilChanged()
                 .Subscribe(x =>
                     {
+                        Debug.Log("ゲージの値です："+x);
                         _view.UpdateText(x);
                         _view.GaugeValue = x;
                         _view.GaugeAnimation();

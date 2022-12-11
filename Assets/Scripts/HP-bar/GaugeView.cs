@@ -14,7 +14,7 @@ namespace Gauge
         /// </summary>
         public void Initialized()
         {
-            UpdateText(0);
+           // UpdateText(0);
         }
 
         /// <summary>
@@ -23,7 +23,8 @@ namespace Gauge
         /// <param name="value"></param>
         public void UpdateText(int value)
         {
-            _text.text = value.ToString("#,0") + "/10";
+            Debug.Log("テキスト数値："+value);
+            _text.text = value.ToString() + "/10";
         }
 
         #region GaugeAnimaion

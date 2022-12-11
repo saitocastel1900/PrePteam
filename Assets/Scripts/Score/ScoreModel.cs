@@ -1,18 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
-public class ScoreModel : MonoBehaviour
+namespace Score
 {
-    // Start is called before the first frame update
-    void Start()
+    public class ScoreModel
     {
+        private FloatReactiveProperty _timeProp;
+        public IReactiveProperty<float> TimeProp => _timeProp;
+        private float Time => _timeProp.Value;
         
-    }
+        public ScoreModel()
+        {
+            _timeProp = new FloatReactiveProperty(60);
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void ManualUpdate(float deltaTime)
+        {
+            UpdateTime(deltaTime);
+        }
+
+        private void UpdateTime(float time)
+        {
+            var value =Mathf.Clamp(Time - time,0.0f,60.0f);
+            _timeProp.Value = value;
+        }
     }
 }

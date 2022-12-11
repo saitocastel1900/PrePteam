@@ -3,6 +3,7 @@ using Commons.Enum;
 using Gauge;
 using Player;
 using RipCurrent;
+using Score;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -16,6 +17,8 @@ namespace InGame
 
         [SerializeField] private RipCurrentPresenter _ripCurrent;
         [SerializeField] private PlayerPresenter _player;
+        [SerializeField] private ScorePresenter _score;
+        
         [Inject]
         private GaugePresenter _gauge;
 
@@ -24,12 +27,12 @@ namespace InGame
             Initialized();
             Bind();
             SetEvent();
-            Debug.Log(_gauge);
         }
 
         private void Update()
         {
             _model.UpdateState(_view.InputMove());
+            _score.ManualUpdate(Time.deltaTime);
         }
 
         private void FixedUpdate()
@@ -43,17 +46,21 @@ namespace InGame
             _player.Initialized();
             _gauge.Initialized();
             _ripCurrent.Initialized();
+            _score.Initialized();
         }
 
         private void Bind()
         {
             _player.Bind();
-            _player.OnCollisionEnter();
+            
+            _ripCurrent.OnCollisionEnter();
 
             _gauge.Bind();
             
             _model.StatePrp
                 .DistinctUntilChanged().Subscribe(OnStateChanged).AddTo(this);
+            
+            _score.Bind();
         }
 
         private void SetEvent()
