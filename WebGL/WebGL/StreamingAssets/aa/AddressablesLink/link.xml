@@ -8,9 +8,10 @@
     <type fullname="Input.InputMoveInstaller" preserve="all" />
     <type fullname="Player.PlayerPresenter" preserve="all" />
     <type fullname="Player.PlayerView" preserve="all" />
-    <type fullname="RipCurrent.RipCurrentModel" preserve="all" />
     <type fullname="RipCurrent.RipCurrentPresenter" preserve="all" />
     <type fullname="RipCurrent.RipCurrentView" preserve="all" />
+    <type fullname="Score.ScorePresenter" preserve="all" />
+    <type fullname="Score.ScoreView" preserve="all" />
   </assembly>
   <assembly fullname="Cinemachine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="Cinemachine.CinemachineBasicMultiChannelPerlin" preserve="all" />
