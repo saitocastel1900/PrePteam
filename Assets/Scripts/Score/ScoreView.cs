@@ -7,14 +7,15 @@ namespace Score
     {
         [SerializeField] private TextMeshProUGUI _text;
         
-        public void Initialized()
+        public void Initialize()
         {
             _text.text = "";
         }
 
         public void UpdateText(float text)
         {
-            _text.text = text.ToString();
+            var value = Mathf.Floor(text);
+            _text.text = value.ToString();
         }
     }
 }

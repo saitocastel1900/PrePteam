@@ -5,32 +5,34 @@ namespace Score
 {
     public class ScorePresenter : MonoBehaviour
     {
-        [SerializeField] private ScoreModel _model;
+        private ScoreModel _model;
         [SerializeField] private ScoreView _view;
 
-        void Start()
-        {
-            Initialized();
-            Bind();
-            SetEvent();
-        }
-
+        /// <summary>
+        /// 初期化
+        /// </summary>
         public void Initialized()
         {
-            _model.Initialized();
-            _view.Initialized();
+            _model = new ScoreModel();
+            _view.Initialize();
         }
 
         public void Bind()
         {
-            
-            
             _model.TimeProp
-                .Subscribe(_=>_view.UpdateText(_model.Time)).AddTo(this);
+                .DistinctUntilChanged()
+                .Subscribe(time=>_view.UpdateText(time)).AddTo(this);
+
+            // スコアが変更された表示も変更
+            //_model.OnSetScore += _view.SetScore;
         }
 
-        public void SetEvent()
+        /// <summary>
+        /// スコアを加算
+        /// </summary>
+        public void ManualUpdate(float deltaTime)
         {
+            _model.ManualUpdate(deltaTime);
         }
     }
 }
