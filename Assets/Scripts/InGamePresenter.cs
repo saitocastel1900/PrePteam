@@ -1,4 +1,3 @@
-using Commons.Const;
 using Commons.Enum;
 using Gauge;
 using Player;
@@ -31,17 +30,13 @@ namespace InGame
 
         private void Update()
         {
-            _model.UpdateState(_view.InputMove());
+            _player.ManualUpdate(Time.deltaTime);
             _score.ManualUpdate(Time.deltaTime);
         }
 
-        private void FixedUpdate()
-        {
-            _player.ManualFixedUpdate();
-        }
-        
         private void Initialized()
         {
+            _view.Initialized();
             _model.Initialized();
             _player.Initialized();
             _gauge.Initialized();
@@ -72,27 +67,7 @@ namespace InGame
         {
             switch (state)
             {
-                //TODO:Presenterは繋げるだけにしたいので、メソッドを呼ぶだけにしたい
-                case InGameEnum.State.Stop:
-                    _player.MoveSpeed = new Vector3(_player.Rigidbody.velocity.x, Physics.gravity.y, _player.Rigidbody.velocity.z);
-                    _player.UpdateBool(false);
-                    break;
-                case InGameEnum.State.Ahead:
-                    _player.MoveSpeed = new Vector3(0, _player.Rigidbody.velocity.y, InGameConst.MoveSpeed * 1);
-                    _player.UpdateBool(true);
-                    break;
-                case InGameEnum.State.Back:
-                    _player.MoveSpeed = new Vector3(0, _player.Rigidbody.velocity.y, InGameConst.MoveSpeed * -1);
-                    _player.UpdateBool(true);
-                    break;
-                case InGameEnum.State.Left:
-                    _player.MoveSpeed = new Vector3(InGameConst.MoveSpeed * -1, _player.Rigidbody.velocity.y, 0);
-                    _player.UpdateBool(true);
-                    break;
-                case InGameEnum.State.Right:
-                    _player.MoveSpeed = new Vector3(InGameConst.MoveSpeed * 1, _player.Rigidbody.velocity.y, 0);
-                    _player.UpdateBool(true);
-                    break;
+                
             }
         }
     }

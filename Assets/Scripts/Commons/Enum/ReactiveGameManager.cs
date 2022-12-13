@@ -11,9 +11,7 @@ namespace Commons.Enum
         
         void Start()
         {
-            _state = new EnumReactiveProperty(InGameEnum.State.Stop);
-            State.DistinctUntilChanged().Subscribe(value=>Debug.Log("‚±‚ñ‚É‚¿‚í"+value)).AddTo(this);
-            
+    
             /*
             _state
                 .DistinctUntilChanged()
@@ -24,10 +22,7 @@ namespace Commons.Enum
 
         private void Update()
         {
-            if(UnityEngine.Input.GetKeyDown(KeyCode.W)) UpdateValue(InGameEnum.State.Ahead);
-            if(UnityEngine.Input.GetKeyDown(KeyCode.A)) UpdateValue(InGameEnum.State.Right);
-            if(UnityEngine.Input.GetKeyDown(KeyCode.D)) UpdateValue(InGameEnum.State.Left);
-            if(UnityEngine.Input.GetKeyDown(KeyCode.S)) UpdateValue(InGameEnum.State.Back);
+           
         }
 
         void Result()

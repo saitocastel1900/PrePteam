@@ -13,7 +13,7 @@ namespace InGame
 
         public void Initialized()
         {
-            _stateProp = new EnumReactiveProperty(InGameEnum.State.Stop);
+            _stateProp = new EnumReactiveProperty(InGameEnum.State.WaitStart);
         }
 
         /// <summary>
