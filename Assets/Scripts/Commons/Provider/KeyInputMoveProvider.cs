@@ -23,5 +23,10 @@ namespace Input
         {
             return UnityEngine.Input.GetKey(KeyCode.S);
         }
+
+        public bool InputSpeedUp()
+        {
+            return UnityEngine.Input.GetKey(KeyCode.LeftShift);
+        }
     }
 }
