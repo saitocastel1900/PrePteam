@@ -1,0 +1,57 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+left to right direction
+
+namespace Player{
+class PlayerPresenter{
+}
+class PlayerModel{
+}
+class PlayerView{
+}
+
+PlayerView--u>PlayerPresenter
+PlayerModel--u>PlayerPresenter
+
+namespace Input{
+class KeyInputMoveProvider{
+}
+interface IInputMoveProvider{
+}
+}
+interface IPushable{
+}
+}
+
+namespace Enemy{
+class RipCurrentPresenter{
+}
+class RipCurrentModel{
+}
+class RipCurrentView{
+}
+RipCurrentModel-->RipCurrentPresenter
+RipCurrentView-->RipCurrentPresenter
+}
+
+namespace Commons{
+namespace Const{
+class InGameConst{}
+}
+namespace Utility{
+class DebugUtility{}
+class SceneTransition{}
+}
+namespace Enum{
+enum InGameEnum{}
+enum GameStateReactiveProperty{}
+}
+}
+
+Player.Input.KeyInputMoveProvider..|>Player.Input.IInputMoveProvider
+Enemy.RipCurrentPresenter..|>Player.IPushable
+Player.PlayerPresenter-->Player.IPushable
+Player.PlayerPresenter-->Player.Input.IInputMoveProvider
+
+@enduml
