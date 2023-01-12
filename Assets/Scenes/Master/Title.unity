@@ -233,7 +233,7 @@ MonoBehaviour:
   _model: {fileID: 349503023}
   _view: {fileID: 349503024}
   _scene:
-    m_AssetGUID: 2805689e8bf0e4343b723b2c8c663394
+    m_AssetGUID: 9fc0d4010bbf28b4594072e72b8655ab
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -926,7 +926,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 29.499996}
+  m_AnchoredPosition: {x: 0, y: 29.5}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1898013809
