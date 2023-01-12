@@ -28,15 +28,21 @@ namespace Title
 
         private void Bind()
         {
-            _view.InputSpaceKey()
-                .ThrottleFirst(TimeSpan.FromSeconds(2f))
-                .Subscribe(_=>_model.BoolUpdate(true)).AddTo(this);
+            _view.OnClickPlay()
+                .First()
+                .Subscribe(_=>_model.UpdatePush(true))
+                .AddTo(this);
+
+            _view.OnClickExit()
+                .First()
+                .Subscribe(_=>Application.OpenURL("about:blank"))
+                .AddTo(this);
         }
 
         private void SetEvent()
         {
-            _model.IsFadeProp
-                .Where(_=>_model.IsFade)
+            _model.IsPushProp
+                .Where(_=>_model.IsPush)
                 .DistinctUntilChanged()
                 .Subscribe(_=>SceneTransition.LoadScene(_scene)).AddTo(this);
         }

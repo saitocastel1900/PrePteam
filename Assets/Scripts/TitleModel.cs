@@ -5,18 +5,18 @@ namespace Title
 {
     public class TitleModel : MonoBehaviour
     {
-        private BoolReactiveProperty _isFadeProp;
-        public IReactiveProperty<bool> IsFadeProp => _isFadeProp;
-        public bool IsFade => _isFadeProp.Value;
+        private BoolReactiveProperty _isPushProp;
+        public IReactiveProperty<bool> IsPushProp => _isPushProp;
+        public bool IsPush => _isPushProp.Value;
         
         public void Initialized()
         {
-            _isFadeProp = new BoolReactiveProperty(false);
+            _isPushProp = new BoolReactiveProperty(false);
         }
 
-        public void BoolUpdate(bool isFade)
+        public void UpdatePush(bool isPush)
         {
-            _isFadeProp.Value = isFade;
+            _isPushProp.Value = isPush;
         }
     }
 }
