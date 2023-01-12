@@ -1,5 +1,4 @@
 using UniRx;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Player
